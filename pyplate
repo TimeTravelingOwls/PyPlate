@@ -3,16 +3,17 @@
 # pyplate
 # Created on:04/17/2019 at 16:55:30
 #
-# Description: Spits out a python script template, with shebang, creation date and time,
-# and description block. File name pulled from the command line; unless otherwise
-# specified, file is created in current directory. Also checks before overwriting.
+# Description: Spits out a python script template, with shebang,
+# creation date and time, and description block.
 #
-# -burk
+# File name is pulled from the command line; unless otherwise
+# specified, file is created in current directory.
+#
+# Also checks before overwriting.
+#
+# Change the value of *sig* to your own liking.
 
-"""
-pyplate: creates a python script template, with shebang, creation date and time, and description block.
-The file's name is specified on the command line.
-"""
+sig = "Your Sig"
 
 # import datetime
 from datetime import datetime
@@ -31,11 +32,12 @@ filename = args.filepath
 def overwrite(filename):
 	if os.path.isfile(filename):
 		print(filename, "already exists!")
-		answer=input("Overwrite? Y/n ")
-		if answer == "Y":
+		answer=input("Overwrite? y/N ")
+		if answer in ("Y","y"):
 			print("OK. Fine. Whatever. Not responsible.")
 		else:
-			print("We now return you to the freeway, \nwhich is already in progress!")
+			print("We now return you to the freeway",
+			"\nwhich is already in progress!")
 			sys.exit(0)
 	else:
 		return
@@ -44,7 +46,11 @@ def overwrite(filename):
 overwrite(filename)
 
 # Build text block
-platetext = ("#!/usr/bin/python3\n\n# " + filename + "\n# Created on:" + datetime.now().strftime("%m/%d/%Y at %I:%M:%S %p") + "\n#\n# Description: \n#\n# -burk\n")
+platetext = ("#!/usr/bin/python3\n "
+	"\n# " + filename +
+	"\n# Created on: " + datetime.now().strftime("%m/%d/%Y at %I:%M %p") +
+	"\n#\n# Description: \n#\n#\n#\n# " +
+	"\n# " + sig + "\n#")
 
 # Write it out
 with open(filename,"w") as pyplate:

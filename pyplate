@@ -1,0 +1,53 @@
+#!/usr/bin/python3
+
+# pyplate
+# Created on:04/17/2019 at 16:55:30
+#
+# Description: Spits out a python script template, with shebang, creation date and time,
+# and description block. File name pulled from the command line; unless otherwise
+# specified, file is created in current directory. Also checks before overwriting.
+#
+# -burk
+
+"""
+pyplate: creates a python script template, with shebang, creation date and time, and description block.
+The file's name is specified on the command line.
+"""
+
+# import datetime
+from datetime import datetime
+import argparse                 # Command line arguments
+import sys                      # file path
+import os.path                  # file path
+from os import path             # file path
+
+# Get args from command line
+parser = argparse.ArgumentParser(description="Make a python script template")
+parser.add_argument("filepath", help="Filename with path FROM ROOT")
+args = parser.parse_args()
+
+filename = args.filepath
+
+def overwrite(filename):
+	if os.path.isfile(filename):
+		print(filename, "already exists!")
+		answer=input("Overwrite? Y/n ")
+		if answer == "Y":
+			print("OK. Fine. Whatever. Not responsible.")
+		else:
+			print("We now return you to the freeway, \nwhich is already in progress!")
+			sys.exit(0)
+	else:
+		return
+
+# See if filename already exists
+overwrite(filename)
+
+# Build text block
+platetext = ("#!/usr/bin/python3\n\n# " + filename + "\n# Created on:" + datetime.now().strftime("%m/%d/%Y at %I:%M:%S %p") + "\n#\n# Description: \n#\n# -burk\n")
+
+# Write it out
+with open(filename,"w") as pyplate:
+    pyplate.write(platetext)
+
+print(filename,"created. Big whoop.")
